@@ -1,0 +1,15 @@
+# Source copy of the résumé. The site publishes resume.pdf only.
+Arup_Halder_Resume.pdf
+
+# macOS folder metadata
+.DS_Store
+
+# Raw media originals stay local. Files meant to be public are copied
+# into media/ (tracked), e.g. media/oceansight-edge-demo.mp4.
+Video/
+
+# Local scratch, test-harness and tool files
+scratch/
+*.log
+node_modules/
+.claude/

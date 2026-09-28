@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Arup Halder | Backend Software Engineer</title>
+  <meta name="description" content="Backend software engineer in Halifax, Nova Scotia, and Master of Applied Computer Science student at Dalhousie University, building APIs and backend systems with Java, Spring Boot and PostgreSQL.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Arup Halder">
+  <meta property="og:title" content="Arup Halder | Backend Software Engineer">
+  <meta property="og:description" content="Backend software engineer in Halifax, Nova Scotia, and Master of Applied Computer Science student at Dalhousie University, building APIs and backend systems with Java, Spring Boot and PostgreSQL.">
+  <meta property="og:url" content="https://beaprogram.github.io/">
+  <link rel="canonical" href="https://beaprogram.github.io/">
+  <!-- No og:image is set. Add one only if a real, suitable image exists. -->
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="#top">Arup Halder</a>
+      <nav class="site-nav" aria-label="Primary">
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-menu">Menu</button>
+        <ul class="site-nav__list" id="site-menu">
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a class="site-nav__cta" href="/resume.pdf">Resume</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+
+    <!-- ============ INTRODUCTION ============ -->
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="container">
+        <h1 class="hero__name" id="hero-title">Arup Halder</h1>
+        <p class="hero__role">Backend Software Engineer</p>
+        <p class="hero__lead">I’m Arup, a backend software engineer and Master of Applied Computer Science student at Dalhousie University. I build APIs and backend systems with Java, Spring Boot and PostgreSQL.</p>
+        <p class="hero__note">Before my master’s, I worked in full-stack roles in Kolkata, building Node.js REST APIs, authentication and API test suites.</p>
+        <ul class="hero__facts" aria-label="Location">
+          <li>Halifax, Nova Scotia</li>
+          <li>Open to relocation within Canada</li>
+        </ul>
+        <ul class="actions" aria-label="Profile links">
+          <li><a class="button button--primary" href="/resume.pdf">Resume <span class="button__hint">PDF</span></a></li>
+          <li><a class="button" href="https://github.com/beaprogram">GitHub</a></li>
+          <li><a class="button" href="https://www.linkedin.com/in/arup-halder">LinkedIn</a></li>
+          <li><a class="button" href="mailto:aruphalder2526@gmail.com">Email</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ FEATURED PROJECTS ============ -->
+    <section class="section" id="projects" aria-labelledby="projects-title">
+      <div class="container">
+        <h2 class="section__title" id="projects-title">Featured projects</h2>
+
+        <div class="project-list">
+
+          <!-- PROJECT START: decisionrail -->
+          <article class="project project--featured" id="project-decisionrail" aria-labelledby="project-decisionrail-title">
+            <div class="project__body">
+              <div class="project__main">
+                <p class="project__type">Personal project</p>
+                <h3 class="project__title" id="project-decisionrail-title">DecisionRail</h3>
+                <p class="project__summary">Payment authorization, capture and void with risk decisions, built as a modular monolith.</p>
+                <div class="project__highlight">
+                  <p class="project__label">Engineering highlight</p>
+                  <p>Idempotent payment flows and failure tests on a dedicated database, with ordered outbox delivery to Kafka (at-least-once, duplicate-safe consumers).</p>
+                </div>
+              </div>
+              <div class="project__aside">
+                <div>
+                  <p class="project__label">Stack</p>
+                  <ul class="tags" aria-label="Technologies">
+                    <li>Java 21</li>
+                    <li>Spring Boot</li>
+                    <li>PostgreSQL</li>
+                    <li>Kafka</li>
+                    <li>Docker</li>
+                  </ul>
+                </div>
+                <ul class="project__links">
+                  <li><a href="https://github.com/beaprogram/Decision-Rail">Source code<span class="visually-hidden"> for DecisionRail</span></a></li>
+                </ul>
+              </div>
+            </div>
+            <details class="project__details">
+              <summary>Implementation details<span class="visually-hidden"> for DecisionRail</span></summary>
+              <div class="details-grid">
+                <div class="details-item">
+                  <h4>How idempotency works</h4>
+                  <p>Every payment command requires an idempotency key scoped to the merchant. The key and a hash of the request are claimed in PostgreSQL in the same transaction that writes the payment, its ledger entries and its outbox row. Repeating a request returns the stored response. Reusing a key with a different payload returns 409 Conflict.</p>
+                </div>
+                <div class="details-item">
+                  <h4>Why a modular monolith</h4>
+                  <p>The project’s design record keeps payment state, ledger, idempotency records and the outbox inside one database transaction. Separate services would have required cross-service consistency before the core payment rules were tested, and no measured scale requirement called for them. <a href="https://github.com/beaprogram/Decision-Rail/blob/main/docs/adr/0001-transactional-core.md">Read ADR 0001</a></p>
+                </div>
+                <div class="details-item">
+                  <h4>What the failure tests check</h4>
+                  <p>Integration tests run in CI against a dedicated PostgreSQL and Kafka stack. They check that concurrent authorizations cannot overspend an account, that simultaneous retries produce one payment, one hold and one event, that a capture and void race ends in exactly one outcome, and that a failed outbox insert rolls back the payment and its idempotency claim. Delivery tests cover a Kafka outage and a crash after Kafka acknowledged a send. <a href="https://github.com/beaprogram/Decision-Rail/tree/main/src/test/java/com/decisionrail">Browse the tests</a></p>
+                </div>
+                <div class="details-item">
+                  <h4>Limitations</h4>
+                  <p>Delivery is at-least-once, not exactly-once, so consumers deduplicate by event ID. The local Kafka broker is a single node. A terminally failed event blocks later events for its own payment until an operator redrives it. Published outbox rows are not yet cleaned up. All funds are synthetic, and the project is not publicly deployed. <a href="https://github.com/beaprogram/Decision-Rail/blob/main/docs/PROGRESS.md">Read the full list</a></p>
+                </div>
+              </div>
+            </details>
+          </article>
+          <!-- PROJECT END: decisionrail -->
+
+          <!-- PROJECT START: homebase -->
+          <article class="project project--featured" id="project-homebase" aria-labelledby="project-homebase-title">
+            <div class="project__body">
+              <div class="project__main">
+                <p class="project__type">Personal project</p>
+                <h3 class="project__title" id="project-homebase-title">Homebase</h3>
+                <p class="project__summary">A housing-search application with saved listings and natural-language retrieval, built with Spring Boot, PostgreSQL, FastAPI and React.</p>
+                <div class="project__highlight">
+                  <p class="project__label">Engineering highlight</p>
+                  <p>Implemented JWT authentication, service-level authorization and a compound database constraint against duplicate saves, supported by 34 automated tests in CI and a separate suite of 25 Playwright end-to-end scenarios.</p>
+                </div>
+              </div>
+              <div class="project__aside">
+                <div>
+                  <p class="project__label">Stack</p>
+                  <ul class="tags" aria-label="Technologies">
+                    <li>Java 21</li>
+                    <li>Spring Boot</li>
+                    <li>PostgreSQL</li>
+                    <li>FastAPI</li>
+                    <li>React</li>
+                    <li>pgvector</li>
+                    <li>Docker</li>
+                  </ul>
+                </div>
+                <ul class="project__links">
+                  <li><a href="https://github.com/beaprogram/homebase">Source code<span class="visually-hidden"> for Homebase</span></a></li>
+                </ul>
+              </div>
+            </div>
+            <details class="project__details">
+              <summary>Implementation details<span class="visually-hidden"> for Homebase</span></summary>
+              <div class="details-grid">
+                <div class="details-item">
+                  <h4>How it fits together</h4>
+                  <p>A React client calls a Java 21 Spring Boot backend. A separate Python FastAPI service handles natural-language retrieval, and PostgreSQL with pgvector stores the data. Docker runs the services together.</p>
+                </div>
+                <div class="details-item">
+                  <h4>Access control and duplicate saves</h4>
+                  <p>JWT authentication identifies the user, and authorization checks in the service layer block access to other users’ data. A compound unique constraint on user and listing means the database itself rejects a second save of the same listing.</p>
+                </div>
+                <div class="details-item">
+                  <h4>Testing</h4>
+                  <p>34 automated tests run in GitHub Actions CI: 20 JUnit tests for the Spring Boot backend, 4 pytest tests for the retrieval service, 6 pytest tests for data ingestion and 4 Vitest tests for the React client. The 25 Playwright end-to-end scenarios are a separate suite that runs against the full local stack.</p>
+                </div>
+                <div class="details-item">
+                  <h4>Limitations</h4>
+                  <p>The Playwright suite needs the full stack running, so CI does not run it yet. There is no public demo with working backend services at the moment.</p>
+                </div>
+              </div>
+            </details>
+          </article>
+          <!-- PROJECT END: homebase -->
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SUPPORTING PROJECTS ============ -->
+    <section class="section" id="more-projects" aria-labelledby="more-projects-title">
+      <div class="container">
+        <h2 class="section__title" id="more-projects-title">More projects</h2>
+
+        <div class="project-list project-list--compact">
+
+          <!-- PROJECT START: dispatch-core -->
+          <article class="project project--compact" id="project-dispatch-core" aria-labelledby="project-dispatch-core-title">
+            <div class="project__body">
+              <div class="project__main">
+                <p class="project__type">Algorithms</p>
+                <h3 class="project__title" id="project-dispatch-core-title">Dispatch Core</h3>
+                <p class="project__summary">A Python spatial-search and routing project with a custom quadtree and A* search on a Halifax road network.</p>
+                <ul class="project__evidence">
+                  <li>Nearest-neighbour queries averaged 8.74 distance checks on 10,000 points, about 1,144 times fewer checks than a linear scan.</li>
+                  <li>Outputs checked against brute force, NetworkX and haversine references across 156 tests, with 100% statement coverage of the quadtree and routing modules.</li>
+                </ul>
+              </div>
+              <div class="project__aside">
+                <div>
+                  <p class="project__label">Stack</p>
+                  <ul class="tags" aria-label="Technologies">
+                    <li>Python</li>
+                    <li>Data structures and algorithms</li>
+                    <li>Quadtree</li>
+                    <li>A*</li>
+                    <li>OpenStreetMap</li>
+                  </ul>
+                </div>
+                <ul class="project__links">
+                  <li><a href="https://github.com/beaprogram/dispatch-core">Source code<span class="visually-hidden"> for Dispatch Core</span></a></li>
+                </ul>
+              </div>
+            </div>
+            <details class="project__details">
+              <summary>Benchmark context<span class="visually-hidden"> for Dispatch Core</span></summary>
+              <div class="details-grid">
+                <div class="details-item">
+                  <p>The 8.74 figure comes from 10,000 uniform seeded points and 200 queries. The 1,144x figure counts distance checks, not runtime.</p>
+                </div>
+                <div class="details-item">
+                  <p>The quadtree and A* search are implemented from scratch. Routing runs on a Halifax road graph from OpenStreetMap with 3,505 nodes and 8,915 edges.</p>
+                </div>
+                <div class="details-item">
+                  <p>A routing strategy showed a 2.4% gain on one seed, but the difference fell within seed-to-seed variability, so it is reported as a negative result rather than an improvement.</p>
+                </div>
+                <div class="details-item">
+                  <p>The 100% figure is statement coverage of the quadtree and routing modules. The whole package measures 98%, and coverage is not a proof of correctness. <a href="https://github.com/beaprogram/dispatch-core/blob/main/benchmarks/results/RESULTS.md">Read the benchmark results</a></p>
+                </div>
+              </div>
+            </details>
+          </article>
+          <!-- PROJECT END: dispatch-core -->
+
+          <!-- PROJECT START: oceansight-edge -->
+          <article class="project project--compact" id="project-oceansight-edge" aria-labelledby="project-oceansight-edge-title">
+            <div class="project__body">
+              <div class="project__main">
+                <p class="project__type">Computer vision</p>
+                <h3 class="project__title" id="project-oceansight-edge-title">OceanSight Edge</h3>
+                <p class="project__summary">A computer-vision project evaluating YOLO detectors and model optimization for ONNX Runtime deployment.</p>
+                <ul class="project__evidence">
+                  <li>Reduced the ONNX model file from 12.14 MB to 3.35 MB (72% smaller) through selective INT8 quantization, with holdout mAP50-95 changing from 0.274 to 0.268.</li>
+                  <li>Trained and benchmarked two YOLO detectors on 1,680 images, using source-video-disjoint splits to prevent data leakage.</li>
+                </ul>
+                <figure class="project__media">
+                  <video controls preload="none" playsinline width="1920" height="1080" poster="media/oceansight-edge-poster.jpg" aria-label="OceanSight Edge narrated demo">
+                    <source src="media/oceansight-edge-demo.mp4" type="video/mp4">
+                    <a href="media/oceansight-edge-demo.mp4">Download the OceanSight Edge demo video (MP4, 4.9 MB)</a>
+                  </video>
+                  <figcaption>Narrated demo, 1 min 29 s, with captions shown in the video.</figcaption>
+                </figure>
+              </div>
+              <div class="project__aside">
+                <div>
+                  <p class="project__label">Stack</p>
+                  <ul class="tags" aria-label="Technologies">
+                    <li>Python</li>
+                    <li>PyTorch</li>
+                    <li>Ultralytics</li>
+                    <li>OpenCV</li>
+                    <li>ONNX Runtime</li>
+                    <li>Streamlit</li>
+                  </ul>
+                </div>
+                <ul class="project__links">
+                  <li><a href="https://github.com/beaprogram/OceanSight">Source code<span class="visually-hidden"> for OceanSight Edge</span></a></li>
+                </ul>
+              </div>
+            </div>
+            <details class="project__details">
+              <summary>Evaluation context<span class="visually-hidden"> for OceanSight Edge</span></summary>
+              <div class="details-grid">
+                <div class="details-item">
+                  <p>Evaluated on a 108-image holdout. Before quantization: mAP50 0.498 and mAP50-95 0.274. After INT8 quantization: mAP50 0.485 and mAP50-95 0.268.</p>
+                </div>
+                <div class="details-item">
+                  <p>The 72% reduction is file size only. It is not a latency, memory or energy measurement.</p>
+                </div>
+                <div class="details-item">
+                  <p>The holdout is a reused reference set rather than a fresh final benchmark, and the detector comparison used one training seed. <a href="https://github.com/beaprogram/OceanSight/blob/main/docs/RESULTS.md">Read the measured results</a></p>
+                </div>
+              </div>
+            </details>
+          </article>
+          <!-- PROJECT END: oceansight-edge -->
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EXPERIENCE AND EDUCATION ============ -->
+    <div class="section">
+      <div class="container two-col">
+
+        <section id="experience" aria-labelledby="experience-title">
+          <h2 class="section__title" id="experience-title">Experience</h2>
+
+          <article class="entry">
+            <div class="entry__head">
+              <div>
+                <h3 class="entry__title">Full Stack Engineer</h3>
+                <p class="entry__org">EazyByts, Kolkata, India</p>
+              </div>
+              <p class="entry__date"><time datetime="2024-07">July 2024</time> to <time datetime="2025-05">May 2025</time></p>
+            </div>
+            <p class="entry__summary">Built a conversational voice agent and EV charging applications, connecting web and mobile interfaces with backend APIs and internal systems.</p>
+            <ul class="entry__points">
+              <li>Built a JavaScript voice agent that qualified callers using natural language processing and passed captured data to internal systems through function calls and webhooks. The client’s answered-call rate rose from 40% to 70%, an increase of 30 percentage points.</li>
+              <li>Developed EV charging applications in React and React Native, backed by Node.js REST APIs, across two platforms and four administrative areas.</li>
+              <li>Secured both applications with JWT authentication, OAuth sign-in and role-based access control, and validated releases with unit and integration tests, Postman API checks and code reviews. No critical production defects were reported when they were released.</li>
+            </ul>
+          </article>
+
+          <article class="entry">
+            <div class="entry__head">
+              <div>
+                <h3 class="entry__title">Full Stack Developer</h3>
+                <p class="entry__org">OctaNet Services Pvt. Ltd., Kolkata, India</p>
+              </div>
+              <p class="entry__date"><time datetime="2023-09">September 2023</time> to <time datetime="2024-05">May 2024</time></p>
+            </div>
+            <p class="entry__summary">Developed an e-commerce application with React, TypeScript, Node.js, Express, and MySQL, and validated its REST APIs with integration tests.</p>
+            <ul class="entry__points">
+              <li>Supported a beta rollout with 500+ registered users and 1,200+ product SKUs.</li>
+              <li>Built Postman integration test suites covering 20+ REST API endpoints, with zero regressions reported across core client workflows at deployment.</li>
+            </ul>
+          </article>
+        </section>
+
+        <section id="education" aria-labelledby="education-title">
+          <h2 class="section__title" id="education-title">Education</h2>
+
+          <article class="entry">
+            <h3 class="entry__title">Master of Applied Computer Science</h3>
+            <p class="entry__org">Dalhousie University, Halifax, NS</p>
+            <p class="entry__date"><time datetime="2025-09">September 2025</time> to expected <time datetime="2027-01">January 2027</time></p>
+            <p class="entry__gpa">GPA 4.0/4.3</p>
+          </article>
+
+          <article class="entry">
+            <h3 class="entry__title">B.Tech in Computer Science and Engineering</h3>
+            <p class="entry__org">Future Institute of Engineering and Management, Kolkata, India</p>
+            <p class="entry__date"><time datetime="2020">2020</time> to <time datetime="2024-06">June 2024</time></p>
+            <p class="entry__gpa">GPA 8.91/10</p>
+          </article>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- ============ SKILLS ============ -->
+    <section class="section" id="skills" aria-labelledby="skills-title">
+      <div class="container">
+        <h2 class="section__title" id="skills-title">Skills</h2>
+        <dl class="skills">
+          <div class="skills__row">
+            <dt>Languages</dt>
+            <dd>Java, Python, TypeScript, JavaScript, SQL</dd>
+          </div>
+          <div class="skills__row">
+            <dt>Backend</dt>
+            <dd>Spring Boot, Spring Security, Spring Data JPA, FastAPI, Node.js, Express.js, REST APIs</dd>
+          </div>
+          <div class="skills__row">
+            <dt>Data and infrastructure</dt>
+            <dd>PostgreSQL, pgvector, MySQL, Flyway, AWS, Docker, Linux, GitHub Actions</dd>
+          </div>
+          <div class="skills__row">
+            <dt>Testing</dt>
+            <dd>JUnit, Playwright, pytest, Postman</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="section contact" id="contact" aria-labelledby="contact-title">
+      <div class="container">
+        <h2 class="section__title" id="contact-title">Let’s talk</h2>
+        <p class="section__intro">I’m interested in backend software engineering roles. Email is the best way to reach me.</p>
+        <p class="contact__email">aruphalder2526@gmail.com</p>
+        <ul class="actions" aria-label="Contact links">
+          <li><a class="button button--primary" href="mailto:aruphalder2526@gmail.com">Email me</a></li>
+          <li><a class="button" href="/resume.pdf" download="Arup_Halder_Resume.pdf">Download Resume</a></li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2026 Arup Halder</p>
+    </div>
+  </footer>
+</body>
+</html>
